@@ -3809,9 +3809,17 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
         hasFocus = false;
       });
 
-      // Keep reference to click handler to unbind it.
+     // Keep reference to click handler to unbind it.
       var dismissClickHandler = function (evt) {
         if (element[0] !== evt.target) {
+
+          // Proposed patch: select the clicked item
+          scope.$apply(function () {
+              if (scope.activeIdx != -1) {
+                  scope.select(scope.activeIdx);
+              }
+          });
+
           resetMatches();
           scope.$digest();
         }
